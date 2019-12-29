@@ -1,35 +1,20 @@
 import React from "react";
-import ReactMapboxGl, {
-	Layer,
-	Feature,
-	GeoJSONLayer,
-	Source
-} from "react-mapbox-gl";
-const Map = ReactMapboxGl({
+import ReactMapboxGl from "react-mapbox-gl";
+import Barnet from './barnet'
+
+const MapBox = ReactMapboxGl({
 	accessToken: process.env.REACT_APP_API_KEY
 });
 
 export default ({la}) => (
-	<Map
+	<MapBox
 		style="mapbox://styles/mapbox/streets-v8"
 		containerStyle={{
 			height: "100vh",
 			width: "100vw"
 		}}
+		center={la.features[0].properties.centroid}
 	>
-		<Layer
-			type="line"
-			id="la"
-			layout={{
-				"line-join": "round",
-				"line-cap": "round"
-			}}
-			paint={{
-				"line-color": "#888",
-				"line-width": 3
-			}}
-		>
-			<Feature coordinates={la.features[0].geometry.coordinates[0]} />
-		</Layer>
-	</Map>
+		<Barnet coordinates={la.features[0].geometry.coordinates[0]}/>
+	</MapBox>
 );
