@@ -1,9 +1,9 @@
-import React from 'react';
-import './App.css';
-import Map from './map'
+import React from "react";
+import "./App.css";
+import Map from "./map";
 
-const App = ({la}) => {
-  return <Map la={la}/>
-}
+const App = ({ la, users }) => {
+	return <Map la={la} users={users} />;
+};
 
 export default App;

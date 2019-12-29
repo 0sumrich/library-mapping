@@ -4,7 +4,11 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { barnet } from "./geo/barnet";
-ReactDOM.render(<App la={barnet} />, document.getElementById("root"));
+import { users } from "./geo/users";
+ReactDOM.render(
+	<App la={barnet} users={users} />,
+	document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
