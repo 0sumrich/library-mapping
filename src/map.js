@@ -6,15 +6,13 @@ import Members from "./members";
 const MapBox = ReactMapboxGl({
 	accessToken: process.env.REACT_APP_API_KEY
 });
-//fitBounds
-// <Barnet coordinates={feature.geometry.coordinates[0]} />
+
 export default ({ la, users }) => {
 	const feature = la.features[0];
 	const { centroid, bounds } = feature.properties;
-	console.log(users);
 	return (
 		<MapBox
-			style="mapbox://styles/mapbox/streets-v8"
+			style="mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p"
 			containerStyle={{
 				height: "100vh",
 				width: "100vw"
@@ -24,7 +22,7 @@ export default ({ la, users }) => {
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Members geo={users} />
-			
+			<Barnet coordinates={feature.geometry.coordinates[0]} />
 		</MapBox>
 	);
 };
