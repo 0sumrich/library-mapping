@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { Layer, Feature } from "react-mapbox-gl";
 
 const Lsoa = ({ feature }) => {
-  debugger;
 	return (
 		<Layer
 			type="fill"
@@ -11,7 +10,7 @@ const Lsoa = ({ feature }) => {
 				"fill-color": "#ff00e1"
 			}}
 		>
-			<Feature coordinates={feature.geometry.coordinates[0]} />
+			<Feature coordinates={feature.geometry.coordinates} />
 		</Layer>
 	);
 };
