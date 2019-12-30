@@ -2,8 +2,6 @@ import React from "react";
 import ReactMapboxGl from "react-mapbox-gl";
 import Barnet from "./barnet";
 import Members from "./members";
-const key = process.env.REACT_APP_API_KEY;
-console.log(key)
 
 const MapBox = ReactMapboxGl({
 	accessToken: process.env.REACT_APP_API_KEY
