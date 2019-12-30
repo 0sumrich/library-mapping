@@ -7,26 +7,21 @@ const Lsoa = ({ feature }) => {
 			type="fill"
 			id={feature.properties.LSOA11CD}
 			paint={{
-				"fill-color": "#000000"
+				"fill-color": "#ff00e1"
 			}}
 		>
-			<Feature coordinates={feature.geometry.coordinates[0]} />
+			<Feature coordinates={feature.geometry.coordinates} />
 		</Layer>
 	);
 };
 
 const Members = ({ geo }) => {
 	const features = geo.features;
-	// return (
-	// 	<Fragment>
-	// 		{features.map(feature => (
-	// 			<Lsoa key={feature.properties.LSOA11CD} feature={feature} />
-	// 		))}
-	// 	</Fragment>
-	// );
 	return (
 		<Fragment>
-			<Lsoa feature={geo.features[0]} />
+			{features.map((feature, i) => (
+				<Lsoa key={feature.properties.LSOA11CD + i} feature={feature} />
+			))}
 		</Fragment>
 	);
 };
