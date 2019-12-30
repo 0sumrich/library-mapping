@@ -17,16 +17,11 @@ const Lsoa = ({ feature }) => {
 
 const Members = ({ geo }) => {
 	const features = geo.features;
-	// return (
-	// 	<Fragment>
-	// 		{features.map(feature => (
-	// 			<Lsoa key={feature.properties.LSOA11CD} feature={feature} />
-	// 		))}
-	// 	</Fragment>
-	// );
 	return (
 		<Fragment>
-			<Lsoa feature={geo.features[0]} />
+			{features.map((feature, i) => (
+				<Lsoa key={feature.properties.LSOA11CD + i} feature={feature} />
+			))}
 		</Fragment>
 	);
 };
