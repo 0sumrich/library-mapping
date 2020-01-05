@@ -4,9 +4,9 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { barnet } from "./geo/barnet";
-
+import {style} from './style'
 ReactDOM.render(
-	<App la={barnet} />,
+	<App la={barnet} mapStyle={style}/>,
 	document.getElementById("root")
 );
 
