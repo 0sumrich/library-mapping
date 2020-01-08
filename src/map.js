@@ -20,10 +20,10 @@ export default ({ la, mapStyle }) => {
 			}}
 			onStyleLoad={m => {
 				// m.setStyle(mapStyle);
-        const f = m.queryRenderedFeatures({layers: ['out']})
-        const ids = f.map(o => o.id)
-        const unique = [...new Set(ids)]
-        debugger;
+				const f = m.queryRenderedFeatures({ layers: ["lib-users"] });
+				const ids = f.map(o => o.id);
+				const unique = [...new Set(ids)];
+				debugger;
 			}}
 			onMouseMove={(_, e) => {
 				const lsoas = _.queryRenderedFeatures(e.point, {
@@ -33,7 +33,11 @@ export default ({ la, mapStyle }) => {
 				if (lsoas.length > 0) {
 					if (hoverId) {
 						_.setFeatureState(
-							{ source: "composite", sourceLayer: 'lib-users', id: hoverId },
+							{
+								source: "composite",
+								sourceLayer: "boundaries-187i5y",
+								id: hoverId
+							},
 							{ hover: false }
 						);
 					}
@@ -41,7 +45,7 @@ export default ({ la, mapStyle }) => {
 					_.setFeatureState(
 						{
 							source: "composite",
-							sourceLayer: "final_boundaries-9rtkfq",
+							sourceLayer: "boundaries-187i5y",
 							id: lsoas[0].id
 						},
 						{ hover: true }
