@@ -19,7 +19,11 @@ export default ({ la, mapStyle }) => {
 				width: "100vw"
 			}}
 			onStyleLoad={m => {
-				m.setStyle(mapStyle);
+				// m.setStyle(mapStyle);
+        const f = m.queryRenderedFeatures({layers: ['out']})
+        const ids = f.map(o => o.id)
+        const unique = [...new Set(ids)]
+        debugger;
 			}}
 			onMouseMove={(_, e) => {
 				const lsoas = _.queryRenderedFeatures(e.point, {
