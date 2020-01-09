@@ -20,6 +20,7 @@ export default ({ la, mapStyle }) => {
 			}}
 			onStyleLoad={m => {
 				m.setStyle(mapStyle);
+        console.log(m.getSource('composite'))
 			}}
 			onMouseMove={(_, e) => {
 				const lsoas = _.queryRenderedFeatures(e.point, {
@@ -54,6 +55,7 @@ export default ({ la, mapStyle }) => {
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Barnet coordinates={feature.geometry.coordinates[0]} />
+      <Source
 		</MapBox>
 	);
 };
