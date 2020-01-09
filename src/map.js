@@ -8,6 +8,21 @@ const MapBox = ReactMapboxGl({
 const style = 'mapbox://styles/0sumrich/ck56ok2jw0fm91cnptdm9t9mv'
 // const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
 const tilesetId = '0sumrich.25k3foel'
+const sourceOptions = {
+  id: 'lib-users',
+  source: {
+    type: 'vector',
+    url: 'mapbox://mapbox.mapbox-streets-v8'
+  },
+  'source-layer': 'poi_label',
+  type: 'circle',
+  paint: {
+    // Mapbox Style Specification paint properties
+  },
+  layout: {
+    // Mapbox Style Specification layout properties
+  }
+}
 
 export default ({ la, mapStyle }) => {
 	const [hoverIds, setHoverIds] = useState([]);
@@ -26,7 +41,7 @@ export default ({ la, mapStyle }) => {
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Barnet coordinates={feature.geometry.coordinates[0]} />
-      <Source 
+      <Layer type='fill' geoJSONSourceOptions={{`mapbox://${tilesetId}}`}/>
 		</MapBox>
 	);
 };
