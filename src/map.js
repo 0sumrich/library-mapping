@@ -5,7 +5,9 @@ const publickey = process.env.REACT_APP_API_KEY;
 const MapBox = ReactMapboxGl({
 	accessToken: publickey
 });
-const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
+const style = 'mapbox://styles/0sumrich/ck56ok2jw0fm91cnptdm9t9mv'
+// const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
+const tilesetId = '0sumrich.25k3foel'
 
 export default ({ la, mapStyle }) => {
 	const [hoverIds, setHoverIds] = useState([]);
@@ -18,25 +20,13 @@ export default ({ la, mapStyle }) => {
 			containerStyle={{
 				height: "100vh",
 				width: "100vw"
-			}}
-			onStyleLoad={m => {
-				m.setStyle(mapStyle);
-			}}
-			onMouseMove={(_, e) => {
-				const lsoas = _.queryRenderedFeatures(e.point, {
-					layers: ["lib-users"]
-				});
-
-				if (lsoas.length > 0) {
-          const lsoa = lsoas[0]
-          setHoverIds(oldIds => [...oldIds, lsoa.id])
-        }
 			}}			
 			center={centroid}
 			fitBounds={bounds}
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Barnet coordinates={feature.geometry.coordinates[0]} />
+      <Source 
 		</MapBox>
 	);
 };
