@@ -8,9 +8,10 @@ const MapBox = ReactMapboxGl({
 const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
 
 export default ({ la, mapStyle }) => {
-	const [hoverId, setHoverId] = useState(null);
+	const [hoverIds, setHoverIds] = useState([]);
 	const feature = la.features[0];
 	const { centroid, bounds } = feature.properties;
+  console.log(hoverIds)
 	return (
 		<MapBox
 			style={style}
@@ -20,7 +21,6 @@ export default ({ la, mapStyle }) => {
 			}}
 			onStyleLoad={m => {
 				m.setStyle(mapStyle);
-        console.log(m.getSource('composite'))
 			}}
 			onMouseMove={(_, e) => {
 				const lsoas = _.queryRenderedFeatures(e.point, {
@@ -28,27 +28,32 @@ export default ({ la, mapStyle }) => {
 				});
 
 				if (lsoas.length > 0) {
-					console.log(lsoas[0]);
-					if (hoverId) {
-						_.setFeatureState(
-							{
-								source: "composite",
-								sourceLayer: "out",
-								id: hoverId
-							},
-							{ hover: false }
-						);
-					}
-					setHoverId(lsoas[0].id);
-					_.setFeatureState(
-						{
-							source: "composite",
-							sourceLayer: "out",
-							id: lsoas[0].id
-						},
-						{ hover: true }
-					);
-				}
+          const lsoa = lsoas[0]
+          const ids = hoverIds.push(lsoa.id)
+          setHoverIds(ids)
+        }
+          
+				// 	console.log(lsoas[0]);
+				// 	if (hoverId) {
+				// 		_.setFeatureState(
+				// 			{
+				// 				source: "composite",
+				// 				sourceLayer: "out",
+				// 				id: hoverId
+				// 			},
+				// 			{ hover: false }
+				// 		);
+				// 	}
+				// 	setHoverId(lsoas[0].id);
+				// 	_.setFeatureState(
+				// 		{
+				// 			source: "composite",
+				// 			sourceLayer: "out",
+				// 			id: lsoas[0].id
+				// 		},
+				// 		{ hover: true }
+				// 	);
+				// }
 			}}			
 			center={centroid}
 			fitBounds={bounds}
