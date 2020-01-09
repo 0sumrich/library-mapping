@@ -5,8 +5,8 @@ const publickey = process.env.REACT_APP_API_KEY;
 const MapBox = ReactMapboxGl({
   accessToken: publickey
 });
-const style = "mapbox://styles/0sumrich/ck56ok2jw0fm91cnptdm9t9mv";
-// const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
+
+const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
 const tilesetId = "0sumrich.25k3foel";
 const sourceOptions = {
   type: "vector",
@@ -39,6 +39,7 @@ export default ({ la, mapStyle }) => {
   return (
     <MapBox
       style={style}
+      onStyleLoad={m => console.log(m)}
       containerStyle={{
         height: "100vh",
         width: "100vw"
@@ -48,7 +49,6 @@ export default ({ la, mapStyle }) => {
       fitBoundsOptions={{ padding: 50 }}
     >
       <Barnet coordinates={feature.geometry.coordinates[0]} />
-      <Source id="lsoas" tileJsonSource={sourceOptions} />
       <Layer type="fill" id="lib-users" sourceId="lsoas" paint={paint}/>
     </MapBox>
   );
