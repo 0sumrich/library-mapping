@@ -29,31 +29,8 @@ export default ({ la, mapStyle }) => {
 
 				if (lsoas.length > 0) {
           const lsoa = lsoas[0]
-          const ids = hoverIds.push(lsoa.id)
-          setHoverIds(ids)
+          setHoverIds(oldIds => [...oldIds, lsoa.id])
         }
-          
-				// 	console.log(lsoas[0]);
-				// 	if (hoverId) {
-				// 		_.setFeatureState(
-				// 			{
-				// 				source: "composite",
-				// 				sourceLayer: "out",
-				// 				id: hoverId
-				// 			},
-				// 			{ hover: false }
-				// 		);
-				// 	}
-				// 	setHoverId(lsoas[0].id);
-				// 	_.setFeatureState(
-				// 		{
-				// 			source: "composite",
-				// 			sourceLayer: "out",
-				// 			id: lsoas[0].id
-				// 		},
-				// 		{ hover: true }
-				// 	);
-				// }
 			}}			
 			center={centroid}
 			fitBounds={bounds}
