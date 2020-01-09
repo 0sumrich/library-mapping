@@ -6,7 +6,7 @@ const MapBox = ReactMapboxGl({
   accessToken: publickey
 });
 
-const style = "mapbox://styles/0sumrich/ck4skvfdt4noq1co2t468d50p";
+const style = "mapbox://styles/0sumrich/ck55oh8go05ks1cqqi7lavhcq";
 const tilesetId = "0sumrich.25k3foel";
 const sourceOptions = {
   type: "vector",
@@ -39,7 +39,10 @@ export default ({ la, mapStyle }) => {
   return (
     <MapBox
       style={style}
-      onStyleLoad={m => console.log(m)}
+      onStyleLoad={m => {
+        m.addSource('lib-users', sourceOptions)
+      }}
+      onMouseMove={m => console.log(m.getSource('lib-users'))}
       containerStyle={{
         height: "100vh",
         width: "100vw"
