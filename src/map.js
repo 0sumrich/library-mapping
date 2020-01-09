@@ -55,7 +55,6 @@ export default ({ la, mapStyle }) => {
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Barnet coordinates={feature.geometry.coordinates[0]} />
-      <Source
 		</MapBox>
 	);
 };
