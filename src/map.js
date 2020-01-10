@@ -72,16 +72,17 @@ const Layers = ({ features }) => {
   }
 };
 
+// <Layers features={features} />
+
 export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
-  console.log(features ? features.length : null);
   return (
     <MapBox
       style={style}
       onStyleLoad={m => {
-        setFeatures(m.queryRenderedFeatures({ layers: ["lib-users"] }));
+        // setFeatures(m.queryRenderedFeatures({ layers: ["lib-users"] }));
       }}
       containerStyle={{
         height: "100vh",
@@ -91,8 +92,7 @@ export default ({ la, mapStyle }) => {
       fitBounds={bounds}
       fitBoundsOptions={{ padding: 50 }}
     >
-      <Barnet coordinates={laFeature.geometry.coordinates[0]} />
-      <Layers features={features} />
+      <Barnet coordinates={laFeature.geometry.coordinates[0]} />      
     </MapBox>
   );
 };
