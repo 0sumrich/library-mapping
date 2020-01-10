@@ -38,27 +38,31 @@ const paint = {
 //       }}
 // "E01000123"
 
+const unique = features => {
+  let res = [];
+  const l = features.length;
+  for (let i = 0; i < l; i++) {
+    const f = features[i];
+    const lsoa = f.properties.LSOA11CD;
+    const lsoas = res.length > 0 ? res.map(o => o.properties.LSOA11CD) : [];
+    if (!lsoas.includes(lsoa)) {
+      res.push(f);
+    }
+  }
+  return res;
+};
+
 const Layers = ({ features }) => {
   const fPaint = {
     "fill-color": "#ff00e1",
     "fill-opacity": 0.25
   };
-  const unique =  => {
-    let res=  [];
-    const l = features.length;
-    for (let i=0;i<l;i++){
-      const f = features[0];
-      const lsoa = f.properties.LSOA11CD
-      if(!res.map(o => o.properties.LSOA11CD).includes(lsoa)){
-        res.push(f)
-      }
-    }
-    return res;
-  }
+
   if (features) {
+    const f = unique(features);
     return (
       <Fragment>
-        {unique(features).map((feature, i) => (
+        {f.map((feature, i) => (
           <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
         ))}
       </Fragment>
@@ -72,7 +76,7 @@ export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
-  console.log(features ? features.length : null)
+  console.log(features ? features.length : null);
   return (
     <MapBox
       style={style}
