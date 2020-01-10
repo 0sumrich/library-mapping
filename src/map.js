@@ -43,10 +43,22 @@ const Layers = ({ features }) => {
     "fill-color": "#ff00e1",
     "fill-opacity": 0.25
   };
+  const unique =  => {
+    let res=  [];
+    const l = features.length;
+    for (let i=0;i<l;i++){
+      const f = features[0];
+      const lsoa = f.properties.LSOA11CD
+      if(!res.map(o => o.properties.LSOA11CD).includes(lsoa)){
+        res.push(f)
+      }
+    }
+    return res;
+  }
   if (features) {
     return (
       <Fragment>
-        {features.map((feature, i) => (
+        {unique(features).map((feature, i) => (
           <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
         ))}
       </Fragment>
