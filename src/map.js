@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import ReactMapboxGl, { Layer, GeoJSONLayer  } from "react-mapbox-gl";
 import Barnet from "./barnet";
 const publickey = process.env.REACT_APP_API_KEY;
@@ -38,26 +38,35 @@ const paint = {
 //       }}
 // "E01000123"
 
-export default ({ la, mapStyle }) => {
-  const [features, setFeatures] = useState(null);
-  const laFeature = la.features[0];
-  const { centroid, bounds } = laFeature.properties;
-  const f = features ? features.filter(o => o.properties.LSOA11CD === 'E01000123')[0] : null;
-  console.log(f)
+const Layers = ({features}) => {
   const fPaint = {
 				"fill-color": "#ff00e1",
 				'fill-opacity': 0.25
   }
-  const geo = features ? 
-        <GeoJSONLayer data={f} paintLayout={fPaint} /> : null
+  if(features){
+    return (
+    <Fragment>{
+        features.map((feature, i) => 
+      <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
+        )}
+    </Fragment>
+      )
+    }
+  } else {
+     return null;
+  }
+}
+
+export default ({ la, mapStyle }) => {
+  const [features, setFeatures] = useState(null);
+  const laFeature = la.features[0];
+  const { centroid, bounds } = laFeature.properties;
+  
   return (
     <MapBox
       style={style}
       onStyleLoad={m => {
         setFeatures(m.queryRenderedFeatures({ layers: ['lib-users'] }));
-      }}
-      onMouseMove={(m, e) => {
-        console.log(m.queryRenderedFeatures(e.point, { layers: ['lib-users'] }))
       }}
       containerStyle={{
         height: "100vh",
@@ -68,7 +77,7 @@ export default ({ la, mapStyle }) => {
       fitBoundsOptions={{ padding: 50 }}
     >
       <Barnet coordinates={laFeature.geometry.coordinates[0]} />
-      {geo}
+      <Layers features={features} />
     </MapBox>
   );
 };
