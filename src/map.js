@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ReactMapboxGl, { Source, Layer } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, GeoJSONLayer  } from "react-mapbox-gl";
 import Barnet from "./barnet";
 const publickey = process.env.REACT_APP_API_KEY;
 const MapBox = ReactMapboxGl({
@@ -36,17 +36,23 @@ const paint = {
 // onStyleLoad={m => {
         
 //       }}
+// "E01000123"
 
 export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
+  const f = features.filter(o => O.properties.LSOA11CD)
+  const geo = features ? 
+        <GeoJSONLayer data
   return (
     <MapBox
       style={style}
       onStyleLoad={m => {
-        const f = m.queryRenderedFeatures({ layers: ['lib-users'] });
-        console.log(f)
+        setFeatures(m.queryRenderedFeatures({ layers: ['lib-users'] }));
+      }}
+      onMouseMove={(m, e) => {
+        console.log(m.queryRenderedFeatures(e.point, { layers: ['lib-users'] }))
       }}
       containerStyle={{
         height: "100vh",
