@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import ReactMapboxGl, { Layer, GeoJSONLayer  } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, GeoJSONLayer } from "react-mapbox-gl";
 import Barnet from "./barnet";
 const publickey = process.env.REACT_APP_API_KEY;
 const MapBox = ReactMapboxGl({
@@ -34,39 +34,38 @@ const paint = {
 
 // <Layer type="fill" id="lsoas" sourceId="lib-users" sourceLayer='out' paint={paint}/>
 // onStyleLoad={m => {
-        
+
 //       }}
 // "E01000123"
 
-const Layers = ({features}) => {
+const Layers = ({ features }) => {
   const fPaint = {
-				"fill-color": "#ff00e1",
-				'fill-opacity': 0.25
-  }
-  if(features){
+    "fill-color": "#ff00e1",
+    "fill-opacity": 0.25
+  };
+  if (features) {
     return (
-    <Fragment>{
-        features.map((feature, i) => 
-      <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
-        )}
-    </Fragment>
-      )
-    }
+      <Fragment>
+        {features.map((feature, i) => (
+          <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
+        ))}
+      </Fragment>
+    );
   } else {
-     return null;
+    return null;
   }
-}
+};
 
 export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
-  
+  console.log(features ? features.length : null)
   return (
     <MapBox
       style={style}
       onStyleLoad={m => {
-        setFeatures(m.queryRenderedFeatures({ layers: ['lib-users'] }));
+        setFeatures(m.queryRenderedFeatures({ layers: ["lib-users"] }));
       }}
       containerStyle={{
         height: "100vh",
