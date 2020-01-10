@@ -42,9 +42,14 @@ export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
-  const f = features.filter(o => O.properties.LSOA11CD)
+  const f = features ? features.filter(o => o.properties.LSOA11CD === 'E01000123')[0] : null;
+  console.log(f)
+  const fPaint = {
+				"fill-color": "#ff00e1",
+				'fill-opacity': 0.25
+  }
   const geo = features ? 
-        <GeoJSONLayer data
+        <GeoJSONLayer data={f} paintLayout={fPaint} /> : null
   return (
     <MapBox
       style={style}
@@ -63,6 +68,7 @@ export default ({ la, mapStyle }) => {
       fitBoundsOptions={{ padding: 50 }}
     >
       <Barnet coordinates={laFeature.geometry.coordinates[0]} />
+      {geo}
     </MapBox>
   );
 };

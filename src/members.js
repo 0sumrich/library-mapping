@@ -7,12 +7,8 @@ const Lsoa = ({ feature }) => {
 			type="fill"
 			id={feature.properties.LSOA11CD}
 			paint={{
-<<<<<<< HEAD
-				"fill-color": "#ff00e1"
-=======
 				"fill-color": "#ff00e1",
 				'fill-opacity': 0.25
->>>>>>> b2ed60d198ecf48b7db022e1dab3d49ee416e30a
 			}}
 		>
 			<Feature coordinates={feature.geometry.coordinates} />
