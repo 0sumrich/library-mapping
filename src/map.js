@@ -52,7 +52,7 @@ export default ({ la, mapStyle }) => {
       fitBoundsOptions={{ padding: 50 }}
     >
       <Barnet coordinates={feature.geometry.coordinates[0]} />
-      <Layer type="fill" id="lib-users" sourceId="lsoas" paint={paint}/>
+      <Layer type="fill" id="lsoas" sourceId="lib-users" paint={paint}/>
     </MapBox>
   );
 };
