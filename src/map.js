@@ -44,6 +44,10 @@ export default ({ la, mapStyle }) => {
   return (
     <MapBox
       style={style}
+      onStyleLoad={m => {
+        const f = m.queryRenderedFeatures({ layers: ['lib-users'] });
+        console.log(f)
+      }}
       containerStyle={{
         height: "100vh",
         width: "100vw"
