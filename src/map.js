@@ -31,18 +31,22 @@ const paint = {
     "hsl(0, 100%, 11%)"
   ]
 };
+
+// <Layer type="fill" id="lsoas" sourceId="lib-users" sourceLayer='out' paint={paint}/>
+
 export default ({ la, mapStyle }) => {
-  const [hoverIds, setHoverIds] = useState([]);
-  const feature = la.features[0];
-  const { centroid, bounds } = feature.properties;
-  console.log(hoverIds);
+  const [features, setFeatures] = useState(null);
+  const laFeature = la.features[0];
+  const { centroid, bounds } = laFeature.properties;
   return (
     <MapBox
       style={style}
       onStyleLoad={m => {
-        m.addSource('lib-users', sourceOptions)
+        m.addSource("lib-users", sourceOptions);
+        var features = m.querySourceFeatures("lib-users", {
+          sourceLayer: "out"
+        });
       }}
-      onMouseMove={m => console.log(m.getSource('lib-users'))}
       containerStyle={{
         height: "100vh",
         width: "100vw"
@@ -51,8 +55,7 @@ export default ({ la, mapStyle }) => {
       fitBounds={bounds}
       fitBoundsOptions={{ padding: 50 }}
     >
-      <Barnet coordinates={feature.geometry.coordinates[0]} />
-      <Layer type="fill" id="lsoas" sourceId="lib-users" paint={paint}/>
+      <Barnet coordinates={laFeature.geometry.coordinates[0]} />
     </MapBox>
   );
 };
