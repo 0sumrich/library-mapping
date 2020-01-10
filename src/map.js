@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ReactMapboxGl, { Layer, GeoJSONLayer } from "react-mapbox-gl";
 import Barnet from "./barnet";
 const publickey = process.env.REACT_APP_API_KEY;
@@ -59,10 +59,9 @@ const Layers = ({ features }) => {
   };
 
   if (features) {
-    const f = unique(features);
     return (
       <Fragment>
-        {f.map((feature, i) => (
+        {features.map((feature, i) => (
           <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
         ))}
       </Fragment>
@@ -72,18 +71,23 @@ const Layers = ({ features }) => {
   }
 };
 
-// <Layers features={features} />
+// 
 
 export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
   const laFeature = la.features[0];
   const { centroid, bounds } = laFeature.properties;
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/boundaries_with_id.json');
+      const json = await res.json()
+      setFeatures(json.features);
+    };
+    fetchData();
+  }, []);
   return (
     <MapBox
       style={style}
-      onStyleLoad={m => {
-        // setFeatures(m.queryRenderedFeatures({ layers: ["lib-users"] }));
-      }}
       containerStyle={{
         height: "100vh",
         width: "100vw"
@@ -92,7 +96,8 @@ export default ({ la, mapStyle }) => {
       fitBounds={bounds}
       fitBoundsOptions={{ padding: 50 }}
     >
-      <Barnet coordinates={laFeature.geometry.coordinates[0]} />      
+      <Barnet coordinates={laFeature.geometry.coordinates[0]} />
+      <Layers features={features} />
     </MapBox>
   );
 };
