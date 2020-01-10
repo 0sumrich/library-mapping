@@ -33,6 +33,9 @@ const paint = {
 };
 
 // <Layer type="fill" id="lsoas" sourceId="lib-users" sourceLayer='out' paint={paint}/>
+// onStyleLoad={m => {
+        
+//       }}
 
 export default ({ la, mapStyle }) => {
   const [features, setFeatures] = useState(null);
@@ -41,12 +44,6 @@ export default ({ la, mapStyle }) => {
   return (
     <MapBox
       style={style}
-      onStyleLoad={m => {
-        m.addSource("lib-users", sourceOptions);
-        var features = m.querySourceFeatures("lib-users", {
-          sourceLayer: "out"
-        });
-      }}
       containerStyle={{
         height: "100vh",
         width: "100vw"
