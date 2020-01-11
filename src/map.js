@@ -1,103 +1,94 @@
 import React, { Fragment, useState, useEffect } from "react";
 import ReactMapboxGl, { Layer, GeoJSONLayer } from "react-mapbox-gl";
 import Barnet from "./barnet";
+import * as d3 from "d3";
+
 const publickey = process.env.REACT_APP_API_KEY;
 const MapBox = ReactMapboxGl({
-  accessToken: publickey
+	accessToken: publickey
 });
 
 const style = "mapbox://styles/0sumrich/ck55oh8go05ks1cqqi7lavhcq";
-const tilesetId = "0sumrich.25k3foel";
-const sourceOptions = {
-  type: "vector",
-  url: `mapbox://${tilesetId}`
-};
-const paint = {
-  "fill-opacity": [
-    "case",
-    ["boolean", ["feature-state", "hover"], false],
-    0.6,
-    0.35
-  ],
-  "fill-color": [
-    "interpolate",
-    ["linear"],
-    ["get", "Number of borrowers"],
-    1,
-    "hsl(0, 100%, 90%)",
-    152.5,
-    "hsl(0, 100%, 51%)",
-    304,
-    "hsl(0, 100%, 11%)"
-  ]
-};
-
-// <Layer type="fill" id="lsoas" sourceId="lib-users" sourceLayer='out' paint={paint}/>
-// onStyleLoad={m => {
-
-//       }}
-// "E01000123"
-
-const unique = features => {
-  let res = [];
-  const l = features.length;
-  for (let i = 0; i < l; i++) {
-    const f = features[i];
-    const lsoa = f.properties.LSOA11CD;
-    const lsoas = res.length > 0 ? res.map(o => o.properties.LSOA11CD) : [];
-    if (!lsoas.includes(lsoa)) {
-      res.push(f);
-    }
-  }
-  return res;
-};
 
 const Layers = ({ features }) => {
-  const fPaint = {
-    "fill-color": "#ff00e1",
-    "fill-opacity": 0.25
-  };
-
-  if (features) {
-    return (
-      <Fragment>
-        {features.map((feature, i) => (
-          <GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
-        ))}
-      </Fragment>
-    );
-  } else {
-    return null;
-  }
+	const fPaint = {
+		"fill-color": "#ff00e1",
+		"fill-opacity": 0.25
+	};
+	const borrowers = features.map(o => o.properties["Number of borrowers"]);
+	const min = d3.min(borrowers);
+	const max = d3.max(borrowers);
+	const scale = d3
+		.scaleLinear()
+		.domain([min, max])
+		.range([0, 1]);
+	console.log(scale(152));
+	return features ? (
+		<Fragment>
+			{features.map((feature, i) => (
+				<GeoJSONLayer key={i} data={feature} fillPaint={fPaint} />
+			))}
+		</Fragment>
+	) : null;
 };
 
-// 
+//
+
+// useEffect(() => {
+// 	const fetchData = async () => {
+// 		const res = await fetch("/boundaries_with_id.json");
+// 		const json = await res.json();
+// 		setFeatures(json.features);
+// 	};
+// 	fetchData();
+// }, []);
 
 export default ({ la, mapStyle }) => {
-  const [features, setFeatures] = useState(null);
-  const laFeature = la.features[0];
-  const { centroid, bounds } = laFeature.properties;
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/boundaries_with_id.json');
-      const json = await res.json()
-      setFeatures(json.features);
-    };
-    fetchData();
-  }, []);
-  return (
-    <MapBox
-      style={style}
-      containerStyle={{
-        height: "100vh",
-        width: "100vw"
-      }}
-      center={centroid}
-      fitBounds={bounds}
-      fitBoundsOptions={{ padding: 50 }}
-    >
-      <Barnet coordinates={laFeature.geometry.coordinates[0]} />
-      <Layers features={features} />
-    </MapBox>
-  );
+	let hoverId = null;
+	const laFeature = la.features[0];
+	const { centroid, bounds } = laFeature.properties;
+	const handleMove = (m, e) => {
+		const lsoas = m.queryRenderedFeatures(e.point, {
+			layers: ["lib-users"]
+		});
+		if (lsoas.length > 0) {
+			const f = lsoas[0];
+			const id = f.id;
+			if (hoverId !== id && hoverId) {
+				m.setFeatureState(
+					{
+						source: "composite",
+						sourceLayer: "out",
+						id: hoverId
+					},
+					{ hover: false }
+				);
+			}
+			m.setFeatureState(
+				{
+					source: "composite",
+					sourceLayer: "out",
+					id: id
+				},
+				{ hover: true }
+			);
+			hoverId = id;
+		}
+	};
+
+	return (
+		<MapBox
+			style={style}
+			containerStyle={{
+				height: "100vh",
+				width: "100vw"
+			}}
+			onMouseMove={handleMove}
+			center={centroid}
+			fitBounds={bounds}
+			fitBoundsOptions={{ padding: 50 }}
+		>
+			<Barnet coordinates={laFeature.geometry.coordinates[0]} />
+		</MapBox>
+	);
 };
