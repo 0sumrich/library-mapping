@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import ReactMapboxGl from "react-mapbox-gl";
+import ReactMapboxGl, { Popup } from "react-mapbox-gl";
 import Barnet from "./barnet";
+import "./map.css";
 
 const publickey = process.env.REACT_APP_API_KEY;
 
@@ -10,7 +11,30 @@ const MapBox = ReactMapboxGl({
 
 const style = "mapbox://styles/0sumrich/ck55oh8go05ks1cqqi7lavhcq";
 
+const featureState = (hov, bool) => [
+	{
+		source: "composite",
+		sourceLayer: "out",
+		id: hov
+	},
+	{ hover: bool }
+];
+
+const Tip = ({ feature, mouse }) => {
+	if (feature && mouse) {
+		return (
+			<Popup coordinates={mouse}>
+				<p>{feature.properties["Number of borrowers"]}</p>
+			</Popup>
+		);
+	} else {
+		return null;
+	}
+};
+
 export default ({ la, mapStyle }) => {
+	const [mouse, setMouse] = useState(null);
+	const [feature, setFeature] = useState(null);
 	let hoverId = null;
 	const laFeature = la.features[0];
 	const { centroid, bounds } = laFeature.properties;
@@ -20,29 +44,16 @@ export default ({ la, mapStyle }) => {
 		});
 		if (lsoas.length > 0) {
 			const f = lsoas[0];
+			setFeature(f);
+			setMouse(e.lngLat);
 			const id = f.id;
 			if (hoverId !== id && hoverId) {
-				m.setFeatureState(
-					{
-						source: "composite",
-						sourceLayer: "out",
-						id: hoverId
-					},
-					{ hover: false }
-				);
+				m.setFeatureState(...featureState(hoverId, false));
 			}
-			m.setFeatureState(
-				{
-					source: "composite",
-					sourceLayer: "out",
-					id: id
-				},
-				{ hover: true }
-			);
+			m.setFeatureState(...featureState(id, true));
 			hoverId = id;
 		}
 	};
-
 	return (
 		<MapBox
 			style={style}
@@ -56,6 +67,7 @@ export default ({ la, mapStyle }) => {
 			fitBoundsOptions={{ padding: 50 }}
 		>
 			<Barnet coordinates={laFeature.geometry.coordinates[0]} />
+			<Tip feature={feature} mouse={mouse} />
 		</MapBox>
 	);
 };
