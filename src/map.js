@@ -22,9 +22,14 @@ const featureState = (hov, bool) => [
 
 const Tip = ({ feature, mouse }) => {
 	if (feature && mouse) {
+		console.log(feature);
 		return (
-			<Popup coordinates={mouse}>
-				<p>{feature.properties["Number of borrowers"]}</p>
+			<Popup coordinates={[mouse.lng, mouse.lat]} offset={15}>
+				<p>{feature.properties.LSOA11NM}</p>
+				<p>{`Number of borrowers: ${
+					feature.properties["Number of borrowers"]
+				}`}</p>
+				<p>{feature.properties.description}</p>
 			</Popup>
 		);
 	} else {
@@ -36,16 +41,17 @@ export default ({ la, mapStyle }) => {
 	const [mouse, setMouse] = useState(null);
 	const [feature, setFeature] = useState(null);
 	let hoverId = null;
+
 	const laFeature = la.features[0];
 	const { centroid, bounds } = laFeature.properties;
 	const handleMove = (m, e) => {
 		const lsoas = m.queryRenderedFeatures(e.point, {
 			layers: ["lib-users"]
 		});
+		setMouse(e.lngLat);
 		if (lsoas.length > 0) {
 			const f = lsoas[0];
 			setFeature(f);
-			setMouse(e.lngLat);
 			const id = f.id;
 			if (hoverId !== id && hoverId) {
 				m.setFeatureState(...featureState(hoverId, false));

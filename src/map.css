@@ -1,0 +1,7 @@
+.mapboxgl-popup-content {
+	background: rgba(250, 250, 255, 0.75) !important;
+}
+
+.mapboxgl-popup-content p {
+	margin: 0 !important;
+}
