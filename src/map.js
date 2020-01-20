@@ -21,23 +21,6 @@ const featureState = (hov, bool) => [
 	{ hover: bool }
 ];
 
-// const Tip = ({ feature, mouse }) => {
-// 	if (feature && mouse) {
-// 		console.log(feature);
-// 		return (
-// 			<Popup coordinates={[mouse.lng, mouse.lat]} offset={15}>
-// 				<p>{feature.properties.LSOA11NM}</p>
-// 				<p>{`Number of borrowers: ${
-// 					feature.properties["Number of borrowers"]
-// 				}`}</p>
-// 				<p>{feature.properties.description}</p>
-// 			</Popup>
-// 		);
-// 	} else {
-// 		return null;
-// 	}
-// };
-
 export default ({ la, mapStyle, libraries }) => {
 	const [mouse, setMouse] = useState(null);
 	const [feature, setFeature] = useState(null);
@@ -59,6 +42,9 @@ export default ({ la, mapStyle, libraries }) => {
 			}
 			m.setFeatureState(...featureState(id, true));
 			hoverId = id;
+		} else {
+			hoverId = null;
+			setFeature(null)
 		}
 	};
 	return (
