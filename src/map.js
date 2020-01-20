@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ReactMapboxGl from "react-mapbox-gl";
+import ReactMapboxGl, { GeoJSONLayer } from "react-mapbox-gl";
 import Barnet from "./barnet";
-import Tip from './tip'
+import Tip from "./tip";
 import "./map.css";
 
 const publickey = process.env.REACT_APP_API_KEY;
@@ -44,7 +44,7 @@ export default ({ la, mapStyle, libraries }) => {
 			hoverId = id;
 		} else {
 			hoverId = null;
-			setFeature(null)
+			setFeature(null);
 		}
 	};
 	return (
@@ -61,6 +61,13 @@ export default ({ la, mapStyle, libraries }) => {
 		>
 			<Barnet coordinates={laFeature.geometry.coordinates[0]} />
 			<Tip feature={feature} mouse={mouse} />
+			<GeoJSONLayer
+				data={libraries}
+				circleLayout={{}}
+				circlePaint={{
+					"circle-radius": 3
+				}}
+			/>
 		</MapBox>
 	);
 };
