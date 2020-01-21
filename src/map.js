@@ -43,7 +43,9 @@ export default ({ la, mapStyle, libraries }) => {
 			m.setFeatureState(...featureState(id, true));
 			hoverId = id;
 		} else {
-			m.setFeatureState(...featureState(hoverId, false));
+			if (hoverId) {
+				m.setFeatureState(...featureState(hoverId, false));
+			}
 			hoverId = null;
 			setFeature(null);
 		}
@@ -54,7 +56,7 @@ export default ({ la, mapStyle, libraries }) => {
 			containerStyle={{
 				height: "80vh",
 				width: "75%",
-				display: 'inline-block'
+				display: "inline-block"
 			}}
 			onMouseMove={handleMove}
 			center={centroid}
