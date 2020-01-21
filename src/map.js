@@ -43,6 +43,7 @@ export default ({ la, mapStyle, libraries }) => {
 			m.setFeatureState(...featureState(id, true));
 			hoverId = id;
 		} else {
+			m.setFeatureState(...featureState(hoverId, false));
 			hoverId = null;
 			setFeature(null);
 		}
@@ -51,8 +52,9 @@ export default ({ la, mapStyle, libraries }) => {
 		<MapBox
 			style={style}
 			containerStyle={{
-				height: "100vh",
-				width: "100vw"
+				height: "80vh",
+				width: "75%",
+				display: 'inline-block'
 			}}
 			onMouseMove={handleMove}
 			center={centroid}
