@@ -59,7 +59,7 @@ export default ({ la, mapStyle, libraries }) => {
 			onMouseMove={handleMove}
 			center={centroid}
 			fitBounds={bounds}
-			fitBoundsOptions={{ padding: 50 }}
+			fitBoundsOptions={{ padding: 57+16 }}
 		>
 			<Barnet coordinates={laFeature.geometry.coordinates[0]} />
 			<Tip feature={feature} mouse={mouse} />
