@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ReactMapboxGl, { GeoJSONLayer } from "react-mapbox-gl";
 import Barnet from "./barnet";
 import Tip from "./tip";
-import "./map.css";
 
 const publickey = process.env.REACT_APP_API_KEY;
 
@@ -54,9 +53,8 @@ export default ({ la, mapStyle, libraries }) => {
 		<MapBox
 			style={style}
 			containerStyle={{
-				height: "80vh",
-				width: "75%",
-				display: "inline-block"
+				height: "100vh",
+				width: "100vw"
 			}}
 			onMouseMove={handleMove}
 			center={centroid}
