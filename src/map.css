@@ -25,6 +25,10 @@
 	font-size: 0.75em;
 }
 
+#legend svg {
+	margin: 0.5em;
+}
+
 .title-container h1, .title-container p {
 	margin: 0;
 }
