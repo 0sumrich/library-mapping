@@ -20,7 +20,11 @@ const Legend = () => {
 		};
 		fetchData();
 	}, []);
-	return <svg id="legend" height="80vh" width="25%" />;
+	return (
+		<div id="legend">
+			<p>Number of members in each area</p>
+		</div>
+		);
 };
 
 export default Legend;
