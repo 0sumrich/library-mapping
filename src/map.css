@@ -18,18 +18,32 @@
 	right: 0.5em;
 	background-color: white;
 	width: 20%;
+	z-index: 2;
 }
 
 #legend p {
 	margin: 0.5em;
 	font-size: 0.75em;
+	display: inline-block;
 }
 
-#legend svg {
-	margin: 0.5em;
+#legend .span {
+	display: inline-block;
+	cursor: pointer;
 }
 
-.title-container h1, .title-container p {
+.hidden {
+	display: none;
+}
+
+.legend-text {
+	fill: black;
+	font-size: x-small;
+	alignment-baseline: middle;
+}
+
+.title-container h1,
+.title-container p {
 	margin: 0;
 }
 
