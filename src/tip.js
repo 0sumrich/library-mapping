@@ -9,7 +9,6 @@ const Tip = ({ feature, mouse }) => {
 				<p>{`Number of borrowers: ${
 					feature.properties["Number of borrowers"]
 				}`}</p>
-				<p>{feature.properties.description}</p>
 			</Popup>
 		);
 	} else {
